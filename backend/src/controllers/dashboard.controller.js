@@ -19,7 +19,7 @@ export const getDashboardStats = async (req, res) => {
       message: error.message,
     });
   }
-};
+}; 
 
 export const getRecentCaptures = async (req, res) => {
   try {
