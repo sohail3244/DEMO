@@ -250,7 +250,7 @@ export default function CapturePage() {
     return canvas;
   }, []);
 
-  const handleCapture = async () => {
+    const handleCapture = async () => {
     if (!token || !location) {
       toast.error("Missing required data");
       return;
@@ -283,9 +283,10 @@ export default function CapturePage() {
       formData.append("image", blob, `capture-${Date.now()}.jpg`);
       formData.append("latitude", location.latitude.toString());
       formData.append("longitude", location.longitude.toString());
-      formData.append("token", token);
+      // Token ko FormData se hatao - backend URL params se lega
 
-      await createCapture(formData);
+      // token ko pehle argument mein pass karo
+      await createCapture(token, formData);
 
       stopCamera();
       setPageState("success");
@@ -293,7 +294,6 @@ export default function CapturePage() {
     } catch (error) {
       console.error("Upload failed:", error);
       
-      // Handle upload errors
       if (error.response) {
         setErrorMessage(`Upload failed: ${error.response.status} - ${error.response.data?.message || 'Server error'}`);
       } else if (error.request) {

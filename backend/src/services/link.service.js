@@ -15,7 +15,7 @@ export const createLinkService = async (adminId, title, expiresAt) => {
 
   return {
     ...link,
-    url: `https://fwl7jvcq-3000.inc1.devtunnels.ms/capture/${token}`,
+    url: `http://localhost:3000/capture/${token}`,
   };
 };
 

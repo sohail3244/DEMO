@@ -7,21 +7,21 @@ export default function useCapture() {
   const [loading, setLoading] = useState(false);
 
   // Upload Capture
-  const createCapture = async (formData) => {
-    try {
-      setLoading(true);
+  const createCapture = async (token, formData) => {
+  try {
+    setLoading(true);
 
-      const { data } = await api.post("/capture", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+    const { data } = await api.post(`/capture/${token}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  };
+    return data;
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Get All Captures
   const getAllCaptures = async () => {
