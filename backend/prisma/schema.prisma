@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  links      CaptureLink[]
+}
+
+model CaptureLink {
+  id          String   @id @default(uuid())
+  token       String   @unique
+  title       String?
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime?
+
+  adminId     String
+  admin       Admin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  captures    Capture[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([token])
+}
+
+model Capture {
+  id            String   @id @default(uuid())
+
+  linkId        String
+  link          CaptureLink @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  imageUrl      String
+  imageFileId   String
+
+  ipAddress     String?
+  browser       String?
+  device        String?
+  os            String?
+
+  latitude      String?
+  longitude     String?
+
+  capturedAt    DateTime @default(now())
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([linkId])
+}
